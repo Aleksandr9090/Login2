@@ -12,16 +12,24 @@ class ViewController: UIViewController {
     @IBOutlet var userNameTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     
-    private let userName = "User"
-    private let password = "password"
+    let user = User.getUserData()
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let welcomeVC = segue.destination as? WelcomeViewController else { return }
-        welcomeVC.userName = userName
+        guard let tabBarController = segue.destination as? UITabBarController else { return }
+        guard let viewControllers = tabBarController.viewControllers else { return }
+        
+        viewControllers.forEach {
+            if let welcomeVC = $0 as? WelcomeViewController {
+                welcomeVC.user = user
+            } else if let navigationVC = $0 as? UINavigationController {
+                guard let userInfoVC = navigationVC.topViewController as? UserInfoViewController else { return }
+                userInfoVC.user = user
+            }
+        }
     }
     
     @IBAction func logInButtonPressed() {
-        guard userNameTextField.text == userName, passwordTextField.text == password else {
+        guard userNameTextField.text == user.login, passwordTextField.text == user.password else {
            showLogInAlert(
             title: "Invalid name or password",
             message: "Please, enter your name and password"
@@ -32,19 +40,18 @@ class ViewController: UIViewController {
     }
     
     @IBAction func forgotUserNameButtonPressed() {
-        showForgotAlert(title: "Did you forget user name?", message: "User name: \(userName).")
+        showForgotAlert(title: "Did you forget user name?", message: "User name: \(user.login).")
     }
     
     @IBAction func forgotPasswordButtonPressed() {
-        showForgotAlert(title: "Did you forget password?", message: "Password: \(password).")
+        showForgotAlert(title: "Did you forget password?", message: "Password: \(user.password).")
     }
     
     @IBAction func unwind(for segue: UIStoryboardSegue) {
         guard let welcomeVC = segue.source as? WelcomeViewController else { return }
-        userNameTextField.text = welcomeVC.userName
+        userNameTextField.text = welcomeVC.user.login
         passwordTextField.text = ""
     }
-    
 }
 
 // MARK: Private Methods
