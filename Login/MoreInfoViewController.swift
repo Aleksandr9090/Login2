@@ -15,7 +15,7 @@ class MoreInfoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //image.image = UIImage(data: user.person.image)
+        image.image = UIImage(named: user.person.image)
 
     }
     

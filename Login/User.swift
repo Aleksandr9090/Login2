@@ -37,8 +37,7 @@ struct Person {
                 name: "Aleksandr",
                 surname: "Shutkin",
                 description: "Жизнерадостный парень, увлекающийся кроссфитом, программированием и мотоциклами",
-                image: "https://kartinkin.net/uploads/posts/2021-07/1626173880_29-kartinkin-com-p-rik-i-morti-fon-krasivo-30.jpg"
-
+                image: "ric"
             )
     }
 }
